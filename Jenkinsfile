@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Post Email') {
       steps {
-        emailext(subject: '$DEFAULT_SUBJECT', body: '$DEFAULT_CONTENT', attachLog: true)
+        emailext(subject: '$DEFAULT_SUBJECT', body: '$DEFAULT_CONTENT', attachLog: true, to: '627337004@qq.com', from: 'deng_dwq@163.com')
       }
     }
   }
