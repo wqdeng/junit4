@@ -1,15 +1,16 @@
 pipeline {
   agent any
   stages {
-    stage('Start') {
+    stage('Building...') {
       steps {
-        sh 'echo \'Start\''
+        echo 'Building...'
+        sh 'mvn clean compile package -Dmaven.test.skip=true'
       }
     }
-    stage('Git Clone...') {
+    stage('Sonar Analysis...') {
       steps {
-        echo 'Git Clone...'
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfiguration: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/junit-team/junit4.git']]])
+        echo 'Sonar Analysis...'
+        sh 'sonar-scanner scan -X -Dsonar.host.url=http://127.0.0.1:9000 -Dsonar.projectName=JUnit -Dsonar.projectVersion=4.13 -Dsonar.sourceEncoding=UTF-8 -Dsonar.projectKey=JUnit -Dsonar.java.binaries=./target/classes -Dsonar.sources=./src/main/java -Dsonar.projectBaseDir=./'
       }
     }
   }
