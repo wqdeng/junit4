@@ -1,13 +1,13 @@
 pipeline {
   agent any
   stages {
-    stage('Building...') {
+    stage('Building') {
       steps {
         echo 'Building...'
         sh 'mvn clean compile package -Dmaven.test.skip=true'
       }
     }
-    stage('Sonar Analysis...') {
+    stage('Sonar Analysis') {
       steps {
         echo 'Sonar Analysis...'
         sh 'sonar-scanner scan -X -Dsonar.host.url=http://127.0.0.1:9000 -Dsonar.projectName=JUnit -Dsonar.projectVersion=4.13 -Dsonar.sourceEncoding=UTF-8 -Dsonar.projectKey=JUnit -Dsonar.java.binaries=./target/classes -Dsonar.sources=./src/main/java -Dsonar.projectBaseDir=./'
@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Post Email') {
       steps {
-        emailext(subject: '${DEFAULT_SUBJECT}', body: '${DEFAULT_CONTENT}', from: '627337004@qq.com', to: '${DEFAULT_RECIPENTS}')
+        emailext(subject: '$DEFAULT_SUBJECT', body: '$DEFAULT_CONTENT', from: '627337004@qq.com', to: '$DEFAULT_RECIPENTS', attachLog: true)
       }
     }
   }
